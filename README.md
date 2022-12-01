@@ -1,4 +1,7 @@
-# AdventOfCode2017
+# aoc-2022
+
+## Set Year
+- Set `AOC_YEAR` variable in [.env](.env) to current year
 
 ## Set Session Token 
 - go to https://adventofcode.com/ 
