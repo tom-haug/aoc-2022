@@ -1,0 +1,37 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "*"
+pandas = "*"
+matplotlib = "*"
+pytest = "*"
+advent-of-code-data = "*"
+black = "*"
+flake8 = "*"
+python-dotenv = "*"
+mypy = "*"
+pre-commit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+
+[scripts]
+setup = "pre-commit install"
+test = "pytest"
+lint = "flake8 src"
+typecheck = "mypy src"
+fmt = "black src"
+new = "python -m src.new_day"
+part = "python -m src.run_part"
+submit = "python -m src.run_part --submit"
+checks = """sh -c "
+  pipenv run fmt \
+  && pipenv run lint \
+  && pipenv run typecheck
+  "
+"""
