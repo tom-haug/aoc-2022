@@ -11,8 +11,11 @@ class Day01Solver(Solver):
 
     def __load_data_structures(self, file_path: str) -> list[int]:
         input = load_text_file(file_path)
-        elf_calories = input.split('\n\n')
-        elf_calorie_sum = [sum([int(calorie) for calorie in elf.strip().split("\n")]) for elf in elf_calories]
+        elf_calories = input.split("\n\n")
+        elf_calorie_sum = [
+            sum([int(calorie) for calorie in elf.strip().split("\n")])
+            for elf in elf_calories
+        ]
         return elf_calorie_sum
 
     @abstractmethod
