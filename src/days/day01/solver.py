@@ -3,7 +3,9 @@ from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
 
 
-class Day01Solver(Solver):
+AnswerType = int
+
+class Day01Solver(Solver[AnswerType]):
     elf_calories: list[int]
 
     def initialize(self, file_path: str):
