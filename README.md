@@ -83,6 +83,6 @@ $ pipenv run setup
 ## CI
 Github Actions is used for CI
 
-[CI Workflow on Github Actions](https://github.com/tom-haug/AdventOfCode2017/actions/workflows/ci.yml)
+[CI Workflow on Github Actions](https://github.com/tom-haug/aoc-2022/actions/workflows/ci.yml)
 
 [Pipeline Config](.github/workflows/ci.yml)
