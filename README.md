@@ -1,4 +1,7 @@
-# AdventOfCode2017
+# aoc-2022
+
+## Set Year
+- Set `AOC_YEAR` variable in [.env](.env) to current year
 
 ## Set Session Token 
 - go to https://adventofcode.com/ 
@@ -80,6 +83,6 @@ $ pipenv run setup
 ## CI
 Github Actions is used for CI
 
-[CI Workflow on Github Actions](https://github.com/tom-haug/AdventOfCode2017/actions/workflows/ci.yml)
+[CI Workflow on Github Actions](https://github.com/tom-haug/aoc-2022/actions/workflows/ci.yml)
 
 [Pipeline Config](.github/workflows/ci.yml)
