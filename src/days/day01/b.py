@@ -1,8 +1,5 @@
 from src.shared.controller import Controller
-from src.days.day01.solver import Day01Solver
-
-
-AnswerType = int
+from src.days.day01.solver import AnswerType, Day01Solver
 
 
 class Day01PartBSolver(Day01Solver):
