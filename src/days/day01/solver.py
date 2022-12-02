@@ -5,6 +5,7 @@ from src.shared.file_loading import load_text_file
 
 AnswerType = int
 
+
 class Day01Solver(Solver[AnswerType]):
     elf_calories: list[int]
 
