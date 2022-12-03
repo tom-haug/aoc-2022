@@ -22,10 +22,11 @@ $ pipenv run new 1
 
 ## Set Test Data
 - create files in the `inputs` folder for each sample data provided
-- add the samples to the `sample_files` method in `Day{day}Part{part}Controller` with filepath and expected result:
+- add the samples to the `test_inputs` method in `Day{day}Part{part}Controller` with filename and expected result:
 ```python
-def sample_files(self) -> list[(str, int)]:
-    return [("src/days/day02/inputs/sample01.txt", 18)]
+@property
+def test_inputs(self) -> list[FileResult[AnswerType]]:
+    return [FileResult("sample01.txt", 18)]
 ```
 Failure to set test data will result in:
 ```
@@ -37,6 +38,12 @@ Exception: Test Fail: Sample src/day03/input_sample01.txt, expecting: 0, actual:
 ```
 
 ## Run Day Part
+This will run the following for a specified day and part (a or b):
+- Run all test data and verify correct result
+- if successful, run the main input
+- If the answer has not yet been found, it will then submit the main input result.
+- Upon successful submission, the answer will be saved to `inputs/{part}_answer.txt`
+- From now on, the main input will be treated as test data and not submitted
 ```
 $ pipenv run part {day} {part}
 
@@ -44,12 +51,13 @@ example:
 $ pipenv run part 1 a
 ```
 
-## Submit Result
+## Dry Run
+In case you don't want to submit upon successful test execution
 ```
-$ pipenv run submit {day} {part}
+$ pipenv run dryrun {day} {part}
 
 example: 
-$ pipenv run submit 1 a
+$ pipenv run dryrun 1 a
 ```
 
 ## Testing

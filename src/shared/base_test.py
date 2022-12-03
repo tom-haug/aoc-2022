@@ -1,32 +1,38 @@
 from abc import ABC, abstractmethod
+from typing import Generic, TypeVar
 from src.shared.controller import Controller
 
 
-class BaseTest(ABC):
+T = TypeVar("T")
+
+
+class BaseTest(ABC, Generic[T]):
     @abstractmethod
-    def get_controller_a(self) -> Controller:
+    def get_controller_a(self) -> Controller[T]:
         ...
 
     @abstractmethod
-    def get_controller_b(self) -> Controller:
+    def get_controller_b(self) -> Controller[T]:
         ...
 
     def test_part_a(self):
         controller = self.get_controller_a()
-        tests = controller.sample_files()
-
-        assert len(tests) > 0
-
-        for (file, expected_result) in tests:
-            result = controller.solve(file)
-            assert result == expected_result
+        self.__test_part(controller)
 
     def test_part_b(self):
         controller = self.get_controller_b()
-        tests = controller.sample_files()
+        self.__test_part(controller)
+
+    def __test_part(self, controller: Controller[T]):
+        tests = controller.test_inputs
+        main_input = controller.main_input()
+        if main_input.expected_result is not None:
+            tests.append(main_input)
 
         assert len(tests) > 0
 
-        for (file, expected_result) in tests:
-            result = controller.solve(file)
-            assert result == expected_result
+        print("\n")
+        for test in tests:
+            print(f"Runnning: {test}")
+            result = controller.solve(test.file_path)
+            assert result == test.expected_result

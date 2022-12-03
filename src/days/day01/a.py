@@ -1,5 +1,6 @@
 from src.shared.controller import Controller
 from src.days.day01.solver import AnswerType, Day01Solver
+from src.shared.file_result import FileResult
 
 
 class Day01PartASolver(Day01Solver):
@@ -7,18 +8,19 @@ class Day01PartASolver(Day01Solver):
         return max(self.elf_calories)
 
 
-class Day01PartAController(Controller):
+class Day01PartAController(Controller[AnswerType]):
     def __init__(self):
         super().__init__(2022, 1, "a")
 
-    def new_solver(self):
+    def _new_solver(self):
         return Day01PartASolver()
 
-    def sample_files(self) -> list[tuple[str, AnswerType]]:
-        return [("src/days/day01/inputs/sample01.txt", 24000)]
+    def _to_answer_type(self, value: str) -> AnswerType:
+        return AnswerType(value)
 
-    def file_path(self) -> str:
-        return "src/days/day01/inputs/main.txt"
+    @property
+    def test_inputs(self) -> list[FileResult[AnswerType]]:
+        return [FileResult("sample01.txt", 24000)]
 
 
 if __name__ == "__main__":

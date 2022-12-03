@@ -22,13 +22,13 @@ python_version = "3.10"
 
 [scripts]
 setup = "pre-commit install"
-test = "pytest"
+test = "pytest -v -s"
 lint = "flake8 src"
 typecheck = "mypy src"
 fmt = "black src"
 new = "python -m src.new_day"
 part = "python -m src.run_part"
-submit = "python -m src.run_part --submit"
+dryrun = "python -m src.run_part --dryrun"
 checks = """sh -c "
   pipenv run fmt \
   && pipenv run lint \

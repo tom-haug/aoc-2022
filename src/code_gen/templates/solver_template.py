@@ -1,20 +1,20 @@
 SOLVER_TEMPLATE = """
 from abc import abstractmethod
 from src.shared.controller import Solver
-from src.shared.file_loading import load_text_file
+from src.shared.file_loading import load_text_file_lines
 
 
-class Day{day_string}Solver(Solver):
+AnswerType = int
+
+
+class Day{day_string}Solver(Solver[AnswerType]):
     data: list[str]
 
     def initialize(self, file_path: str):
-        self.data = self.__load_data_structures(file_path)
-
-    def __load_data_structures(self, file_path: str) -> list[str]:
         input = load_text_file_lines(file_path)
-        return input
+        self.data = input
 
     @abstractmethod
-    def solve(self) -> int:
+    def solve(self) -> AnswerType:
         ...
 """

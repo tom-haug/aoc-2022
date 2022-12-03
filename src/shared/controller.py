@@ -1,63 +1,110 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 import argparse
-from typing import Any
-from aocd import submit
+import os
+from typing import Generic, TypeVar
+
+# from aocd import submit
+from aocd.models import Puzzle
+import inspect
+from src.shared.file_loading import load_text_file, touch_file, write_file
 
 from src.shared.solver import Solver
+from src.shared.file_result import FileResult
+
+T = TypeVar("T")
 
 
-class Controller(ABC):
+class Controller(ABC, Generic[T]):
     def __init__(self, year: int, day: int, part: str):
         self.year = year
         self.day = day
         self.part = part
 
     @abstractmethod
-    def new_solver(self) -> Solver:
+    def _new_solver(self) -> Solver[T]:
         ...
+
+    def main_input(self) -> FileResult[T]:
+        input_path = "main.txt"
+        answer_path = os.path.join(self.input_path, f"{self.part}_answer.txt")
+        answer = load_text_file(answer_path)
+        result = None if answer is None else self._to_answer_type(answer)
+        return FileResult(input_path, result)
 
     @abstractmethod
-    def sample_files(self) -> list[tuple[str, Any]]:
+    def _to_answer_type(self, value: str) -> T:
         ...
 
-    @abstractmethod
-    def file_path(self) -> str:
+    @abstractproperty
+    def test_inputs(self) -> list[FileResult[T]]:
         ...
 
-    def __run_test_inputs(self) -> None:
-        samples = self.sample_files()
+    @property
+    def day_path(self) -> str:
+        return os.path.dirname(inspect.getfile(self.__class__))
 
-        if len(samples) == 0:
-            raise Exception(
-                f"No sample files setup. Add these to: {self.__class__.__name__}"
-            )
-
-        for (file_path, expected_result) in samples:
-            result = self.solve(file_path)
-            if result != expected_result:
-                raise Exception(
-                    f"Test Fail: Sample {file_path}, expecting: {expected_result}, actual: {result}"
-                )
-            print(f"Test Pass: File: {file_path}, result: {result}")
+    @property
+    def input_path(self) -> str:
+        return os.path.join(self.day_path, "inputs")
 
     def run(self) -> None:
-        self.__run_test_inputs()
+        self.__runtest_inputs()
+        self.__run_main_input()
 
-        result = self.solve(self.file_path())
-        print(f"Result: {result}")
-        self.try_submit(result)
+    def __runtest_inputs(self) -> None:
+        tests = self.test_inputs
+        if len(tests) == 0:
+            raise Exception(
+                f"No test files setup. Add these to: {self.__class__.__name__}"
+            )
+        for test in tests:
+            self.__run_iteration(test)
 
-    def solve(self, file_path: str) -> Any:
-        solver = self.new_solver()
+    def __run_main_input(self) -> None:
+        self.__run_iteration(self.main_input())
+
+    def __run_iteration(self, test_pair: FileResult[T]) -> None:
+        file_path = test_pair.file_path
+        expected_result = test_pair.expected_result
+
+        result = self.solve(file_path)
+        if expected_result is None:
+            print(f"Result: File: {file_path}, result: {result}")
+            self.__try_submit(result)
+        else:
+            if result != expected_result:
+                raise Exception(
+                    f"Test Failed: File: {file_path}, expecting: {expected_result}, actual: {result}"
+                )
+            print(f"Test Passed: File: {file_path}, result: {result}")
+
+    def solve(self, file_name: str) -> T:
+        file_path = os.path.join(self.input_path, file_name)
+        solver = self._new_solver()
         solver.initialize(file_path)
         result = solver.solve()
         return result
 
-    def try_submit(self, result: Any):
+    def __try_submit(self, answer: T):
         args = create_parser().parse_args()
-        do_submit = args.submit
-        if do_submit:
-            submit(result, part=self.part, day=self.day, year=self.year)
+        dryrun = args.dryrun
+        if not dryrun:
+            puzzle = Puzzle(year=self.year, day=self.day)
+            if self.part == "a":
+                puzzle.answer_a = answer
+                if puzzle.answer_a is not None:
+                    self.__update_main_result(answer)
+            else:
+                puzzle.answer_b = answer
+                if puzzle.answer_b is not None:
+                    self.__update_main_result(answer)
+
+    def __update_main_result(self, result: T):
+        controller_file_path = inspect.getfile(self.__class__)
+        dir = os.path.dirname(controller_file_path)
+        output_file = os.path.join(dir, "inputs", f"{self.part}_answer.txt")
+        touch_file(output_file)
+        write_file(output_file, str(result))
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -65,7 +112,7 @@ def create_parser() -> argparse.ArgumentParser:
         description="Helper to bootstrap files for problems"
     )
     parser.add_argument(
-        "-s", "--submit", action="store_true", help="Submit result if tests pass"
+        "-d", "--dryrun", action="store_true", help="Do NOT attempt to submit"
     )
 
     return parser

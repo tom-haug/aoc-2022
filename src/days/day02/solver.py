@@ -51,7 +51,7 @@ class Day02Solver(Solver[AnswerType]):
         for round in input:
             value_1, value_2 = round.split(" ")
             their_shape = Shape.from_str(value_1)
-            my_shape = self.get_my_shape(their_shape, value_2)
+            my_shape = self._get_my_shape(their_shape, value_2)
             result.append((their_shape, my_shape))
         return result
 
@@ -84,7 +84,7 @@ class Day02Solver(Solver[AnswerType]):
                 return RoundResult.LOSE
 
     @abstractmethod
-    def get_my_shape(self, their_shape: Shape, second_value: str) -> Shape:
+    def _get_my_shape(self, their_shape: Shape, second_value: str) -> Shape:
         ...
 
     def solve(self) -> AnswerType:
