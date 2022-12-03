@@ -4,16 +4,8 @@ from src.code_gen.file_data import FileData
 from src.code_gen.templates.part_template import PART_TEMPLATE
 from src.code_gen.templates.solver_template import SOLVER_TEMPLATE
 from src.code_gen.templates.test_template import TEST_TEMPLATE
+from src.shared.file_loading import touch_file, write_file
 from src.shared.variables import AOC_TOKEN, AOC_YEAR
-
-
-def touch_file(path: str) -> None:
-    open(path, "x")
-
-
-def write_file(path: str, content: str) -> None:
-    with open(path, "w") as f:
-        f.write(content.strip() + "\n")
 
 
 def create_files(year: int, file_data: FileData) -> None:
