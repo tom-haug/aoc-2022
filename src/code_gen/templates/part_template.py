@@ -1,6 +1,7 @@
 PART_TEMPLATE = """
 from src.shared.controller import Controller
 from src.days.day{day_string}.solver import AnswerType, Day{day_string}Solver
+from src.shared.file_result import FileResult
 
 
 class Day{day_string}Part{part_upper}Solver(Day{day_string}Solver):
