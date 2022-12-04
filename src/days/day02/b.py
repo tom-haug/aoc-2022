@@ -4,20 +4,9 @@ from src.shared.file_result import FileResult
 
 
 class Day02PartBSolver(Day02Solver):
-    my_shape_mapper: dict[tuple[Shape, RoundResult], Shape] = {
-        (Shape.ROCK, RoundResult.WIN): Shape.PAPER,
-        (Shape.ROCK, RoundResult.LOSE): Shape.SCISSOR,
-        (Shape.ROCK, RoundResult.DRAW): Shape.ROCK,
-        (Shape.PAPER, RoundResult.WIN): Shape.SCISSOR,
-        (Shape.PAPER, RoundResult.LOSE): Shape.ROCK,
-        (Shape.PAPER, RoundResult.DRAW): Shape.PAPER,
-        (Shape.SCISSOR, RoundResult.WIN): Shape.ROCK,
-        (Shape.SCISSOR, RoundResult.LOSE): Shape.PAPER,
-        (Shape.SCISSOR, RoundResult.DRAW): Shape.SCISSOR,
-    }
-
     def _get_my_shape(self, their_shape: Shape, second_value: str) -> Shape:
-        return self.my_shape_mapper[(their_shape, RoundResult.from_str(second_value))]
+        result = RoundResult.parse(second_value)
+        return Shape((int(their_shape) + int(result)) % 3)
 
 
 class Day02PartBController(Controller[AnswerType]):

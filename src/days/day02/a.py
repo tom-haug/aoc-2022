@@ -5,7 +5,7 @@ from src.shared.file_result import FileResult
 
 class Day02PartASolver(Day02Solver):
     def _get_my_shape(self, their_shape: Shape, second_value: str) -> Shape:
-        return Shape.from_str(second_value)
+        return Shape.parse(second_value)
 
 
 class Day02PartAController(Controller[AnswerType]):
