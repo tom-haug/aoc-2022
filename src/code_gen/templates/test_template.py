@@ -10,6 +10,6 @@ class TestDay{day_string}(BaseTest[AnswerType]):
     def _get_controller_a(self) -> Controller[AnswerType]:
         return Day{day_string}PartAController()
 
-    def get_controller_b(self) -> Controller[AnswerType]:
+    def _get_controller_b(self) -> Controller[AnswerType]:
         return Day{day_string}PartBController()
 """
