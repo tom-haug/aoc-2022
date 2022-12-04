@@ -1,26 +1,23 @@
-from abc import ABC, abstractmethod
 import argparse
+import inspect
 import os
+from abc import ABC, abstractmethod
+from aocd.models import Puzzle
 from typing import Generic, TypeVar
 
-# from aocd import submit
-from aocd.models import Puzzle
-import inspect
 from src.shared.file_loading import load_text_file, touch_file, write_file
-
 from src.shared.solver import Solver
 from src.shared.file_result import FileResult
+from src.shared.variables import AOC_YEAR
 
 T = TypeVar("T")
 
 
 class Controller(ABC, Generic[T]):
-    year: int
     day: int
     part: str
 
-    def __init__(self, year: int, day: int, part: str):
-        self.year = year
+    def __init__(self, day: int, part: str):
         self.day = day
         self.part = part
 
@@ -93,7 +90,7 @@ class Controller(ABC, Generic[T]):
         args = create_parser().parse_args()
         dryrun = args.dryrun
         if not dryrun:
-            puzzle = Puzzle(year=self.year, day=self.day)
+            puzzle = Puzzle(year=AOC_YEAR, day=self.day)
             if self.part == "a":
                 puzzle.answer_a = answer
                 if puzzle.answer_a is not None:

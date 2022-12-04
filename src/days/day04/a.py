@@ -14,7 +14,7 @@ def fully_contained(a: Bounds, b: Bounds):
 
 class Day04PartAController(Controller[AnswerType]):
     def __init__(self):
-        super().__init__(2022, 4, "a")
+        super().__init__(4, "a")
 
     def _new_solver(self):
         return Day04PartASolver()

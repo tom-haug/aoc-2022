@@ -10,7 +10,7 @@ class Day02PartASolver(Day02Solver):
 
 class Day02PartAController(Controller[AnswerType]):
     def __init__(self):
-        super().__init__(2022, 2, "a")
+        super().__init__(2, "a")
 
     def _new_solver(self):
         return Day02PartASolver()
