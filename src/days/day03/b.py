@@ -1,23 +1,20 @@
+from typing import Iterator
 from src.shared.controller import Controller
-from src.days.day03.solver import AnswerType, Day03Solver
+from src.days.day03.solver import AnswerType, Day03Solver, Rucksack
 from src.shared.file_result import FileResult
 
 
 class Day03PartBSolver(Day03Solver):
-    def _get_shared_items(self) -> list[str]:
-        shared_items: list[str] = []
-
+    def _get_shared_items(self) -> Iterator[str]:
         for group_num in range(0, len(self.rucksacks), 3):
-            group = self.rucksacks[group_num : group_num + 3]
-            a_items = group[0][0] + group[0][1]
-            b_items = group[1][0] + group[1][1]
-            c_items = group[2][0] + group[2][1]
+            group = [
+                all_items(elf) for elf in self.rucksacks[group_num : group_num + 3]
+            ]
+            yield from group[0].intersection(group[1]).intersection(group[2])
 
-            for item in a_items:
-                if item in b_items and item in c_items:
-                    shared_items.append(item)
-                    break
-        return shared_items
+
+def all_items(rucksack: Rucksack) -> set[str]:
+    return rucksack[0].union(rucksack[1])
 
 
 class Day03PartBController(Controller[AnswerType]):

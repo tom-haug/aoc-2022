@@ -1,17 +1,13 @@
+from typing import Iterator
 from src.shared.controller import Controller
 from src.days.day03.solver import AnswerType, Day03Solver
 from src.shared.file_result import FileResult
 
 
 class Day03PartASolver(Day03Solver):
-    def _get_shared_items(self) -> list[str]:
-        shared_items: list[str] = []
-        for rucksack in self.rucksacks:
-            for item in rucksack[0]:
-                if item in rucksack[1]:
-                    shared_items.append(item)
-                    break
-        return shared_items
+    def _get_shared_items(self) -> Iterator[str]:
+        for compartments in self.rucksacks:
+            yield from compartments[0].intersection(compartments[1])
 
 
 class Day03PartAController(Controller[AnswerType]):
