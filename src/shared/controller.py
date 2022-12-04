@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 import argparse
 import os
 from typing import Generic, TypeVar
@@ -15,29 +15,14 @@ T = TypeVar("T")
 
 
 class Controller(ABC, Generic[T]):
+    year: int
+    day: int
+    part: str
+
     def __init__(self, year: int, day: int, part: str):
         self.year = year
         self.day = day
         self.part = part
-
-    @abstractmethod
-    def _new_solver(self) -> Solver[T]:
-        ...
-
-    def main_input(self) -> FileResult[T]:
-        input_path = "main.txt"
-        answer_path = os.path.join(self.input_path, f"{self.part}_answer.txt")
-        answer = load_text_file(answer_path)
-        result = None if answer is None else self._to_answer_type(answer)
-        return FileResult(input_path, result)
-
-    @abstractmethod
-    def _to_answer_type(self, value: str) -> T:
-        ...
-
-    @abstractproperty
-    def test_inputs(self) -> list[FileResult[T]]:
-        ...
 
     @property
     def day_path(self) -> str:
@@ -48,22 +33,48 @@ class Controller(ABC, Generic[T]):
         return os.path.join(self.day_path, "inputs")
 
     def run(self) -> None:
-        self.__runtest_inputs()
+        self.__run_test_inputs()
         self.__run_main_input()
 
-    def __runtest_inputs(self) -> None:
-        tests = self.test_inputs
+    def main_input(self) -> FileResult[T]:
+        input_path = "main.txt"
+        answer_path = os.path.join(self.input_path, f"{self.part}_answer.txt")
+        answer = load_text_file(answer_path)
+        result = None if answer is None else self._to_answer_type(answer)
+        return FileResult(input_path, result)
+
+    @abstractmethod
+    def test_inputs(self) -> list[FileResult[T]]:
+        ...
+
+    def solve(self, file_name: str) -> T:
+        file_path = os.path.join(self.input_path, file_name)
+        solver = self._new_solver()
+        solver.initialize(file_path)
+        result = solver.solve()
+        return result
+
+    @abstractmethod
+    def _new_solver(self) -> Solver[T]:
+        ...
+
+    @abstractmethod
+    def _to_answer_type(self, value: str) -> T:
+        ...
+
+    def __run_test_inputs(self) -> None:
+        tests = self.test_inputs()
         if len(tests) == 0:
             raise Exception(
                 f"No test files setup. Add these to: {self.__class__.__name__}"
             )
         for test in tests:
-            self.__run_iteration(test)
+            self.__run_input(test)
 
     def __run_main_input(self) -> None:
-        self.__run_iteration(self.main_input())
+        self.__run_input(self.main_input())
 
-    def __run_iteration(self, test_pair: FileResult[T]) -> None:
+    def __run_input(self, test_pair: FileResult[T]) -> None:
         file_path = test_pair.file_path
         expected_result = test_pair.expected_result
 
@@ -77,13 +88,6 @@ class Controller(ABC, Generic[T]):
                     f"Test Failed: File: {file_path}, expecting: {expected_result}, actual: {result}"
                 )
             print(f"Test Passed: File: {file_path}, result: {result}")
-
-    def solve(self, file_name: str) -> T:
-        file_path = os.path.join(self.input_path, file_name)
-        solver = self._new_solver()
-        solver.initialize(file_path)
-        result = solver.solve()
-        return result
 
     def __try_submit(self, answer: T):
         args = create_parser().parse_args()
@@ -114,5 +118,4 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-d", "--dryrun", action="store_true", help="Do NOT attempt to submit"
     )
-
     return parser

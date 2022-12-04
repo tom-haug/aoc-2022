@@ -8,7 +8,7 @@ class Day{day_string}Part{part_upper}Solver(Day{day_string}Solver):
         return -1
 
 
-class Day{day_string}Part{part_upper}Controller(Controller):
+class Day{day_string}Part{part_upper}Controller(Controller[AnswerType]):
     def __init__(self):
         super().__init__({year}, {day_int}, '{part}')
 
@@ -18,7 +18,6 @@ class Day{day_string}Part{part_upper}Controller(Controller):
     def _to_answer_type(self, value: str) -> AnswerType:
         return AnswerType(value)
 
-    @property
     def test_inputs(self) -> list[FileResult[AnswerType]]:
         return [FileResult("sample01.txt", -1)]
 
