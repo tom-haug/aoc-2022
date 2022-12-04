@@ -11,7 +11,7 @@ class Day{day_string}Part{part_upper}Solver(Day{day_string}Solver):
 
 class Day{day_string}Part{part_upper}Controller(Controller[AnswerType]):
     def __init__(self):
-        super().__init__({year}, {day_int}, '{part}')
+        super().__init__({day_int}, '{part}')
 
     def _new_solver(self):
         return Day{day_string}Part{part_upper}Solver()

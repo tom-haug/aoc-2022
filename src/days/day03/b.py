@@ -19,7 +19,7 @@ def all_items(rucksack: Rucksack) -> set[str]:
 
 class Day03PartBController(Controller[AnswerType]):
     def __init__(self):
-        super().__init__(2022, 3, "b")
+        super().__init__(3, "b")
 
     def _new_solver(self):
         return Day03PartBSolver()
