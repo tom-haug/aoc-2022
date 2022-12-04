@@ -20,7 +20,6 @@ class Day01PartBController(Controller[AnswerType]):
     def _to_answer_type(self, value: str) -> AnswerType:
         return AnswerType(value)
 
-    @property
     def test_inputs(self) -> list[FileResult[AnswerType]]:
         return [FileResult("sample01.txt", 45000)]
 

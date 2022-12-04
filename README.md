@@ -24,7 +24,6 @@ $ pipenv run new 1
 - create files in the `inputs` folder for each sample data provided
 - add the samples to the `test_inputs` method in `Day{day}Part{part}Controller` with filename and expected result:
 ```python
-@property
 def test_inputs(self) -> list[FileResult[AnswerType]]:
     return [FileResult("sample01.txt", 18)]
 ```
