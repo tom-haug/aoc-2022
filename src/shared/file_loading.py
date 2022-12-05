@@ -7,7 +7,7 @@ def load_text_file(file_path: str) -> Optional[str]:
         return None
     with open(file_path, "r") as f:
         file_contents = f.read()
-    return file_contents
+    return file_contents.strip("\n")
 
 
 def load_text_file_lines(file_path: str) -> list[str]:
