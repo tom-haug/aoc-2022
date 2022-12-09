@@ -3,6 +3,6 @@
   "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
   "editor.formatOnSave": true,
-  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.typeCheckingMode": "basic",
   "mypy.runUsingActiveInterpreter": true
 }
