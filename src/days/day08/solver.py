@@ -19,3 +19,10 @@ class Day08Solver(Solver[AnswerType]):
     @abstractmethod
     def solve(self) -> AnswerType:
         ...
+
+    def _tree_lines(self, x: int, y: int) -> tuple[NDArray, NDArray, NDArray, NDArray]:
+        left = np.flip(self.tree_matrix[y, :x])
+        right = self.tree_matrix[y, x + 1 :]
+        up = np.flip(self.tree_matrix[:y, x])
+        down = self.tree_matrix[y + 1 :, x]
+        return left, right, up, down

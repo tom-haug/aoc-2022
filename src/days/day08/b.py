@@ -1,7 +1,6 @@
 from __future__ import annotations
 from nptyping import NDArray
 from math import prod
-import numpy as np
 from src.shared.controller import Controller
 from src.days.day08.solver import AnswerType, Day08Solver
 from src.shared.file_result import FileResult
@@ -15,10 +14,7 @@ class Day08PartBSolver(Day08Solver):
         for y in range(1, height - 1):
             for x in range(1, width - 1):
                 cur = self.tree_matrix[y, x]
-                left = np.flip(self.tree_matrix[y, :x])
-                right = self.tree_matrix[y, x + 1 :]
-                up = np.flip(self.tree_matrix[:y, x])
-                down = self.tree_matrix[y + 1 :, x]
+                left, right, up, down = self._tree_lines(x, y)
 
                 trees_per_direction = [
                     line_of_sight_count(direction, cur)
