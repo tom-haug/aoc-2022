@@ -15,6 +15,7 @@ python-dotenv = "*"
 mypy = "*"
 pre-commit = "*"
 more-itertools = "*"
+nptyping = "*"
 
 [dev-packages]
 
