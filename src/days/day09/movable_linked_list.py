@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Optional
-
+import numpy as np
 from src.shared.point import Point
 
 
@@ -26,8 +26,8 @@ class MovableLinkedList(Point):
 
     def move(self, target_x: int, target_y: int):
         while (self.x, self.y) != (target_x, target_y):
-            x_increment = move_increment(target_x - self.x)
-            y_increment = move_increment(target_y - self.y)
+            x_increment = np.sign(target_x - self.x)
+            y_increment = np.sign(target_y - self.y)
             if self.stop_adjactent and (self.x + x_increment, self.y + y_increment) == (
                 target_x,
                 target_y,
@@ -47,7 +47,3 @@ class MovableLinkedList(Point):
 
     def __log_history(self):
         self.history.add((self.x, self.y))
-
-
-def move_increment(value: int) -> int:
-    return 1 if value >= 1 else -1 if value <= -1 else 0
