@@ -2,6 +2,7 @@ import argparse
 import inspect
 import os
 from abc import ABC, abstractmethod
+import time
 from aocd.models import Puzzle
 from typing import Generic, TypeVar
 
@@ -48,7 +49,11 @@ class Controller(ABC, Generic[T]):
         file_path = os.path.join(self.input_path, file_name)
         solver = self._new_solver()
         solver.initialize(file_path)
+
+        start = time.time()
         result = solver.solve()
+        end = time.time()
+        print(f"elapsed: {end - start}ms")
         return result
 
     @abstractmethod
