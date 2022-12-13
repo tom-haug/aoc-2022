@@ -1,5 +1,6 @@
+from src.days.day13.packet import Packet
 from src.shared.controller import Controller
-from src.days.day13.solver import AnswerType, Day13Solver, Packet
+from src.days.day13.solver import AnswerType, Day13Solver
 from src.shared.file_result import FileResult
 
 
