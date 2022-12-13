@@ -5,8 +5,6 @@ name = "pypi"
 
 [packages]
 numpy = "*"
-pandas = "*"
-matplotlib = "*"
 pytest = "*"
 advent-of-code-data = "*"
 black = "*"
@@ -16,6 +14,7 @@ mypy = "*"
 pre-commit = "*"
 more-itertools = "*"
 nptyping = "*"
+astar = "*"
 
 [dev-packages]
 
