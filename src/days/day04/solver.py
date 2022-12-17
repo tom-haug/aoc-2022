@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Any
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
 
@@ -11,7 +12,7 @@ BoundsPair = tuple[Bounds, Bounds]
 class Day04Solver(Solver[AnswerType]):
     pairs: list[BoundsPair]
 
-    def initialize(self, file_path: str):
+    def initialize(self, file_path: str, extra_params: dict[str, Any]):
         input = load_text_file_lines(file_path)
         self.pairs = [split_pairs(line) for line in input]
 

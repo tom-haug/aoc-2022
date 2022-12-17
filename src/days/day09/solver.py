@@ -1,4 +1,5 @@
 from abc import abstractproperty
+from typing import Any
 from src.days.day09.movable_linked_list import MovableLinkedList
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -15,7 +16,7 @@ class Day09Solver(Solver[AnswerType]):
     def rope_length(self) -> int:
         ...
 
-    def initialize(self, file_path: str):
+    def initialize(self, file_path: str, extra_params: dict[str, Any]):
         input = load_text_file_lines(file_path)
         self.instructions = [
             (line[0], int(line[1])) for line in [line.split(" ") for line in input]

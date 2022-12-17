@@ -33,5 +33,5 @@ class BaseTest(ABC, Generic[T]):
         print("\n")
         for test in tests:
             print(f"Runnning: {test}")
-            result = controller.solve(test.file_path)
+            result = controller.solve(test.file_path, test.extra_params)
             assert result == test.expected_result
