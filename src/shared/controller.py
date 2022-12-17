@@ -17,10 +17,12 @@ T = TypeVar("T")
 class Controller(ABC, Generic[T]):
     day: int
     part: str
+    args: argparse.Namespace
 
     def __init__(self, day: int, part: str):
         self.day = day
         self.part = part
+        self.args = create_parser().parse_known_args()[0]
 
     @property
     def day_path(self) -> str:
@@ -50,7 +52,7 @@ class Controller(ABC, Generic[T]):
         return {}
 
     def solve(self, file_name: str, extra_params: dict[str, Any] = {}) -> T:
-        if "result_override" in extra_params:
+        if "result_override" in extra_params and not self.args.force:
             print(f"{Colors.WARNING}Long-running solve. Execution overridden.")
             return extra_params["result_override"]
 
@@ -99,8 +101,7 @@ class Controller(ABC, Generic[T]):
             print(f"Test Passed: File: {file_path}, result: {result}")
 
     def __try_submit(self, answer: T):
-        args = create_parser().parse_args()
-        dryrun = args.dryrun
+        dryrun = self.args.dryrun
         if not dryrun:
             puzzle = Puzzle(year=AOC_YEAR, day=self.day)
             if self.part == "a":
@@ -126,5 +127,11 @@ def create_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "-d", "--dryrun", action="store_true", help="Do NOT attempt to submit"
+    )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="Force execution of long-running solutions",
     )
     return parser
