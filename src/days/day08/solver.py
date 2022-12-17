@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Any
 import numpy as np
 
 from nptyping import NDArray
@@ -12,7 +13,7 @@ AnswerType = int
 class Day08Solver(Solver[AnswerType]):
     tree_matrix: NDArray
 
-    def initialize(self, file_path: str):
+    def initialize(self, file_path: str, extra_params: dict[str, Any]):
         input = load_text_file_lines(file_path)
         self.tree_matrix = np.array([[int(char) for char in line] for line in input])
 

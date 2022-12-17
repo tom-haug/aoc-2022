@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Iterator
+from typing import Any, Iterator
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
 
@@ -11,7 +11,7 @@ Rucksack = tuple[set[str], set[str]]
 class Day03Solver(Solver[AnswerType]):
     rucksacks: list[Rucksack]
 
-    def initialize(self, file_path: str):
+    def initialize(self, file_path: str, extra_params: dict[str, Any]):
         input = load_text_file_lines(file_path)
         self.rucksacks = [parse_rucksack(line) for line in input]
 
