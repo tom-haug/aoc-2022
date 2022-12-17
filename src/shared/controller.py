@@ -22,7 +22,7 @@ class Controller(ABC, Generic[T]):
     def __init__(self, day: int, part: str):
         self.day = day
         self.part = part
-        self.args = create_parser().parse_args()
+        self.args = create_parser().parse_known_args()[0]
 
     @property
     def day_path(self) -> str:
