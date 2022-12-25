@@ -96,9 +96,9 @@ class Controller(ABC, Generic[T]):
         else:
             if result != expected_result:
                 raise Exception(
-                    f"Test Failed: File: {file_path}, expecting: {expected_result}, actual: {result}"
+                    f"{Colors.FAIL}Test Failed: File: {file_path}, expecting: {expected_result}, actual: {result}"
                 )
-            print(f"Test Passed: File: {file_path}, result: {result}")
+            print(f"{Colors.OKGREEN}Test Passed: File: {file_path}, result: {result}")
 
     def __try_submit(self, answer: T):
         dryrun = self.args.dryrun
