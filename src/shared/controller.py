@@ -63,7 +63,7 @@ class Controller(ABC, Generic[T]):
         start = time.time()
         result = solver.solve()
         end = time.time()
-        print(f"elapsed: {end - start}ms")
+        print(f"{Colors.OKBLUE}elapsed: {end - start}ms")
         return result
 
     @abstractmethod
