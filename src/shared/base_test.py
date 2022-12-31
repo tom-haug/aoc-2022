@@ -33,5 +33,6 @@ class BaseTest(ABC, Generic[T]):
         print("\n")
         for test in tests:
             print(f"Runnning: {test}")
+            test.extra_params["show_visual"] = False
             result = controller.solve(test.file_path, test.extra_params)
             assert result == test.expected_result

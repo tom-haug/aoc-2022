@@ -15,11 +15,12 @@ pre-commit = "*"
 more-itertools = "*"
 nptyping = "*"
 astar = "*"
+matplotlib = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
 
 [scripts]
 setup = "pre-commit install"

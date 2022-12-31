@@ -89,6 +89,9 @@ class Controller(ABC, Generic[T]):
     def __run_input(self, test_pair: FileResult[T]) -> None:
         file_path = test_pair.file_path
         expected_result = test_pair.expected_result
+
+        test_pair.extra_params["show_visual"] = self.args.visual
+
         result = self.solve(file_path, test_pair.extra_params)
         if expected_result is None:
             print(f"Result: File: {file_path}, result: {result}")
@@ -133,5 +136,11 @@ def create_parser() -> argparse.ArgumentParser:
         "--force",
         action="store_true",
         help="Force execution of long-running solutions",
+    )
+    parser.add_argument(
+        "-v",
+        "--visual",
+        action="store_true",
+        help="Output solution visualization if available (will run slower)",
     )
     return parser
