@@ -17,10 +17,16 @@ def create_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Force execution of long-running solutions",
     )
+    parser.add_argument(
+        "-v",
+        "--visual",
+        action="store_true",
+        help="Output solution visualization if available (will run slower)",
+    )
     return parser
 
 
 if __name__ == "__main__":
     args = create_parser().parse_args()
-    command = f"pipenv run python -m src.days.day{args.day:02d}.{args.part}{' --dryrun' if args.dryrun else ''}{' --force' if args.force else ''}"
+    command = f"pipenv run python -m src.days.day{args.day:02d}.{args.part}{' --dryrun' if args.dryrun else ''}{' --force' if args.force else ''}{' --visual' if args.visual else ''}"
     subprocess.run(command)
