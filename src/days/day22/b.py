@@ -55,6 +55,7 @@ class Day22PartBSolver(Day22Solver):
 
         working_cube = original_cube
         working_cube[(location + (SpecialZLayers.Path,))] = MapObject.Path
+        cube_face = get_cube_face(working_cube)
 
         facing_dir = FacingDirection.Right
         for instruction in self.instructions:
@@ -62,12 +63,17 @@ class Day22PartBSolver(Day22Solver):
                 case MoveInstruction(amount=amount):
 
                     for _ in range(amount):
-                        working_cube, location = self.move_3d(
-                            working_cube, location, facing_dir
+                        working_cube, cube_face, new_location = self.move_3d(
+                            working_cube, cube_face, location, facing_dir
                         )
+
+                        if new_location == location:
+                            break
+                        location = new_location
                         working_cube[
                             (location + (SpecialZLayers.Path,))
                         ] = MapObject.Path
+
                 case TurnInstruction(direction=turn_dir):
                     facing_dir = self.turn(facing_dir, turn_dir)
 
@@ -141,12 +147,12 @@ class Day22PartBSolver(Day22Solver):
             self.__populate_cube(rotated, Point(check_x, check_y))
 
     def move_3d(
-        self, cube: NDArray, location: Point, facing: FacingDirection
-    ) -> tuple[NDArray, Point]:
-        cube_face = merge_map_slices(
-            cube[:, :, SpecialZLayers.Ground, DataAxisLayer.Map],
-            cube[:, :, SpecialZLayers.Ground + 1, DataAxisLayer.Map],
-        )
+        self,
+        cube: NDArray,
+        cube_face: NDArray,
+        location: Point,
+        facing: FacingDirection,
+    ) -> tuple[NDArray, NDArray, Point]:
         location = self.move_2d(cube_face, location, facing)
 
         # when we reach an edge, rotate cube
@@ -154,20 +160,24 @@ class Day22PartBSolver(Day22Solver):
         if location[0] < XY_OFFSET:
             # left edge
             cube = np.rot90(cube, k=-1, axes=(CubeAxis.Z, CubeAxis.X))
+            cube_face = get_cube_face(cube)
             location = Point(width - XY_OFFSET - 1, location[1])
         elif location[0] >= width - XY_OFFSET:
             # right edge
             cube = np.rot90(cube, axes=(CubeAxis.Z, CubeAxis.X))
+            cube_face = get_cube_face(cube)
             location = Point(XY_OFFSET, location[1])
         elif location[1] < XY_OFFSET:
             # top edge
             cube = np.rot90(cube, k=-1, axes=(CubeAxis.Z, CubeAxis.Y))
+            cube_face = get_cube_face(cube)
             location = Point(location[0], height - XY_OFFSET - 1)
         elif location[1] >= height - XY_OFFSET:
             # bottom edge
             cube = np.rot90(cube, axes=(CubeAxis.Z, CubeAxis.Y))
+            cube_face = get_cube_face(cube)
             location = Point(location[0], XY_OFFSET)
-        return cube, location
+        return cube, cube_face, location
 
     def _calc_original_placement(
         self, cube: NDArray, location: Point, facing: FacingDirection
@@ -220,7 +230,14 @@ class Day22PartBSolver(Day22Solver):
         else:
             orig_direction = FacingDirection.Up
 
-        return orig_loc, orig_direction
+        return Point(orig_loc, orig_direction)
+
+
+def get_cube_face(cube: NDArray) -> NDArray:
+    return merge_map_slices(
+        cube[:, :, SpecialZLayers.Ground, DataAxisLayer.Map],
+        cube[:, :, SpecialZLayers.Ground + 1, DataAxisLayer.Map],
+    )
 
 
 def merge_map_slices(a: NDArray, b: NDArray) -> NDArray:
@@ -248,7 +265,7 @@ class Day22PartBController(Controller[AnswerType]):
         return [FileResult("sample01.txt", 5031, {"side_length": 4})]
 
     def _main_input_extra_params(self) -> dict[str, Any]:
-        return {"side_length": 50, "result_override": 104385}
+        return {"side_length": 50}
 
 
 if __name__ == "__main__":
