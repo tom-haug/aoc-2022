@@ -1,6 +1,6 @@
 from abc import abstractmethod
 import re
-from typing import Any, Callable, Iterator, Optional
+from typing import Callable, Iterator, Optional
 from attr import dataclass
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
@@ -54,11 +54,9 @@ class Sensor:
 
 class Day15Solver(Solver[AnswerType]):
     sensors: list[Sensor]
-    extra_params: dict[str, Any]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
-        self.extra_params = extra_params
         self.sensors = [sensor for sensor in self.__parse_sensor(input)]
 
     def __parse_sensor(self, input: str) -> Iterator[Sensor]:

@@ -35,9 +35,12 @@ XY_OFFSET = 2
 
 
 class Day22PartBSolver(Day22Solver):
+    @property
+    def visual_available(self) -> bool:
+        return True
+
     def solve(self) -> AnswerType:
         self.side_length = self.extra_params["side_length"]
-        self.show_visual = self.extra_params["show_visual"]
 
         original_cube = np.full(
             tuple(self.side_length + (XY_OFFSET * 2) for _ in range(3))

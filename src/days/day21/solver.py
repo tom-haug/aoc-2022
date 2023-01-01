@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod, abstractproperty
 from functools import cached_property
 import math
 import re
-from typing import Any, Literal
+from typing import Literal
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
 
@@ -125,7 +125,7 @@ class OperatorMonkey(Monkey):
 class Day21Solver(Solver[AnswerType]):
     monkeys: list[Monkey]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.monkeys = [parse_monkey(line) for line in input]
         link_monkeys(self.monkeys)

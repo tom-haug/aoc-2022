@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Iterator
+from typing import Iterator
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
 
@@ -11,7 +11,7 @@ Point3D = tuple[int, int, int]
 class Day18Solver(Solver[AnswerType]):
     cubes: set[Point3D]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.cubes = {
             (int(coords[0]), int(coords[1]), int(coords[2]))

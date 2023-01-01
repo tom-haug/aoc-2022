@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import abstractmethod
-from typing import Any, Optional
+from typing import Optional
 from nptyping import NDArray
 import numpy as np
 from src.days.day22.models import (
@@ -26,8 +26,7 @@ class Day22Solver(Solver[AnswerType]):
     side_length: int
     show_visual: bool
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
-        self.extra_params = extra_params
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
         parts = input.split("\n\n")
         self.map, self.starting_loc = parse_map(parts[0])

@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from typing import Any
 from attr import dataclass
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
@@ -22,7 +21,7 @@ class Day05Solver(Solver[AnswerType]):
     game_space: GameSpace
     instructions: list[Instruction]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
         crates_section, instructions_section = input.split("\n\n")
         self.game_space = self.__load_game_space(crates_section)

@@ -1,6 +1,5 @@
 from abc import abstractmethod
 import itertools
-from typing import Any
 from src.days.day17.rocks import rock_factory
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -14,7 +13,7 @@ class Day17Solver(Solver[AnswerType]):
     wind_pattern: list[str]
     history: list[int]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.wind_pattern = [char for char in input[0]]
 

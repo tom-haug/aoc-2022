@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 import time
 from aocd.models import Puzzle
 from typing import Any, Generic, TypeVar
+from src.shared.extra_params import ExtraParams
 from src.shared.file_loading import load_text_file, touch_file, write_file
 from src.shared.print_helpers import Colors
 from src.shared.solver import Solver
@@ -51,14 +52,21 @@ class Controller(ABC, Generic[T]):
     def _main_input_extra_params(self) -> dict[str, Any]:
         return {}
 
-    def solve(self, file_name: str, extra_params: dict[str, Any] = {}) -> T:
-        if "result_override" in extra_params and not self.args.force:
-            print(f"{Colors.WARNING}Long-running solve. Execution overridden.")
-            return extra_params["result_override"]
+    # def solve(self, file_name: str, extra_params: dict[str, Any] = {}) -> T:
+    def solve(self, test: FileResult[T]) -> T:
 
-        file_path = os.path.join(self.input_path, file_name)
+        if (
+            test.expected_result
+            and ExtraParams.LongRunning in test.extra_params
+            and not self.args.force
+        ):
+            print(f"{Colors.WARNING}Long-running solve. Execution overridden.")
+            return test.expected_result
+
+        file_path = os.path.join(self.input_path, test.file_path)
         solver = self._new_solver()
-        solver.initialize(file_path, extra_params)
+        solver.initialize_extra_params(test.extra_params)
+        solver.initialize(file_path)
 
         start = time.time()
         result = solver.solve()
@@ -90,9 +98,9 @@ class Controller(ABC, Generic[T]):
         file_path = test_pair.file_path
         expected_result = test_pair.expected_result
 
-        test_pair.extra_params["show_visual"] = self.args.visual
+        test_pair.extra_params[ExtraParams.ShowVisual] = self.args.visual
 
-        result = self.solve(file_path, test_pair.extra_params)
+        result = self.solve(test_pair)
         if expected_result is None:
             print(f"Result: File: {file_path}, result: {result}")
             self.__try_submit(result)

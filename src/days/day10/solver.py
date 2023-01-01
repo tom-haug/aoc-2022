@@ -1,7 +1,6 @@
 from __future__ import annotations
 from abc import abstractmethod
 from copy import copy
-from typing import Any
 from src.shared.computer import Instruction, Processor, Registers
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -15,7 +14,7 @@ class Day10Solver(Solver[AnswerType]):
     processor: Processor
     history: dict[int, Registers]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.instructions = [Instruction(line) for line in input]
         self.processor = Processor("X")

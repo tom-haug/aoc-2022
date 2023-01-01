@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import abstractmethod
-from typing import Any
 from src.days.day13.packet import Packet
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
@@ -12,7 +11,7 @@ AnswerType = int
 class Day13Solver(Solver[AnswerType]):
     packet_pairs: list[tuple[Packet, Packet]]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
         pairs = input.split("\n\n")
         self.packet_pairs = [self.__parse_packet_pair(pair) for pair in pairs]

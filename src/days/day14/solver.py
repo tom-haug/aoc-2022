@@ -1,6 +1,5 @@
 from abc import abstractproperty
-from typing import Any, Iterator, Optional
-
+from typing import Iterator, Optional
 from numpy import sign
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -14,7 +13,7 @@ class Day14Solver(Solver[AnswerType]):
     occupied: set[tuple[int, int]]
     max_y: int
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.max_y = 0
         self.occupied = set(

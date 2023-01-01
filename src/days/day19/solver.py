@@ -2,7 +2,6 @@ from abc import abstractmethod, abstractproperty
 import copy
 from functools import cache
 import re
-from typing import Any
 from src.days.day19.models import Blueprint, GameState, ResourceType, Resources
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -26,7 +25,7 @@ class Day19Solver(Solver[AnswerType]):
     def _resource_buffer(self) -> float:
         ...
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.all_blueprints = [parse_blueprint(line) for line in input]
 
