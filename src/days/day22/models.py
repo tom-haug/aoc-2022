@@ -1,5 +1,4 @@
 from __future__ import annotations
-from abc import ABC
 from collections import namedtuple
 from enum import Enum, IntEnum, StrEnum
 
@@ -36,15 +35,14 @@ class MapObject(StrEnum):
     Edge = "%"
 
 
-class Instruction(ABC):
-    ...
-
-
 @dataclass
-class MoveInstruction(Instruction):
+class MoveInstruction:
     amount: int
 
 
 @dataclass
-class TurnInstruction(Instruction):
+class TurnInstruction:
     direction: TurnDirection
+
+
+Instruction = MoveInstruction | TurnInstruction
