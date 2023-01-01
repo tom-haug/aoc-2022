@@ -61,12 +61,10 @@ class Day22PartBSolver(Day22Solver):
         for instruction in self.instructions:
             match instruction:
                 case MoveInstruction(amount=amount):
-
                     for _ in range(amount):
                         working_cube, cube_face, new_location = self.move_3d(
                             working_cube, cube_face, location, facing_dir
                         )
-
                         if new_location == location:
                             break
                         location = new_location
