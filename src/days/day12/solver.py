@@ -51,7 +51,7 @@ class Day12Solver(Solver[AnswerType]):
     start: Point
     goal: Point
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.matrix = np.array(
             [

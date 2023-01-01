@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import abstractproperty
-from typing import Any
 from src.days.day20.circular_linked_list import CircularLinkedList
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
@@ -12,7 +11,7 @@ AnswerType = int
 class Day20Solver(Solver[AnswerType]):
     working_list: CircularLinkedList
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         values = [int(value) for value in input]
         self.working_list = CircularLinkedList(values[0])

@@ -1,7 +1,7 @@
 from abc import abstractmethod, abstractproperty
 import operator
 from queue import Queue
-from typing import Any, Callable
+from typing import Callable
 from attr import dataclass
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
@@ -39,7 +39,7 @@ class Monkey:
 class Day11Solver(Solver[AnswerType]):
     monkeys: dict[int, Monkey]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
         self._pre_parse(input)
         monkey_sections = input.split("\n\n")

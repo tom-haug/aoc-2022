@@ -1,7 +1,7 @@
 from math import prod
 from typing import Any
 from src.days.day19.models import Blueprint
-from src.shared.controller import Controller
+from src.shared.controller import Controller, ExtraParams
 from src.days.day19.solver import (
     AnswerType,
     Day19Solver,
@@ -37,10 +37,10 @@ class Day19PartBController(Controller[AnswerType]):
         return AnswerType(value)
 
     def test_inputs(self) -> list[FileResult[AnswerType]]:
-        return [FileResult("sample01.txt", 3472, {"result_override": 3472})]
+        return [FileResult("sample01.txt", 3472, {ExtraParams.LongRunning: True})]
 
     def _main_input_extra_params(self) -> dict[str, Any]:
-        return {"result_override": 3003}
+        return {ExtraParams.LongRunning: True}
 
 
 if __name__ == "__main__":

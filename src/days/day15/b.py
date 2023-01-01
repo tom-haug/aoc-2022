@@ -1,5 +1,5 @@
 from typing import Any
-from src.shared.controller import Controller
+from src.shared.controller import Controller, ExtraParams
 from src.days.day15.solver import (
     AnswerType,
     Day15Solver,
@@ -48,7 +48,7 @@ class Day15PartBController(Controller[AnswerType]):
         return [FileResult("sample01.txt", 56000011, {"max_bounds": 20})]
 
     def _main_input_extra_params(self) -> dict[str, Any]:
-        return {"max_bounds": 4000000, "result_override": 12543202766584}
+        return {"max_bounds": 4000000, ExtraParams.LongRunning: True}
 
 
 if __name__ == "__main__":

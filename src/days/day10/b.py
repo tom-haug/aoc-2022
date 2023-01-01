@@ -4,8 +4,13 @@ from src.shared.file_result import FileResult
 
 
 class Day10PartBSolver(Day10Solver):
+    @property
+    def visual_available(self) -> bool:
+        return True
+
     def _answer(self) -> str:
-        self._print()
+        if self.show_visual:
+            self._print()
         # manually read output from terminal
         return "FJUBULRZ"
 

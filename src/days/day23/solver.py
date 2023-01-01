@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from collections import deque, namedtuple
 from enum import Enum
-from typing import Any, Optional
+from typing import Optional
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file_lines
 
@@ -22,7 +22,7 @@ class Direction(Enum):
 class Day23Solver(Solver[AnswerType]):
     elves: set[Point]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file_lines(file_path)
         self.elves = {
             Point(x, y)

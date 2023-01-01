@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from src.shared.controller import Controller
+from src.shared.controller import Controller, ExtraParams
 
 
 T = TypeVar("T")
@@ -33,6 +33,6 @@ class BaseTest(ABC, Generic[T]):
         print("\n")
         for test in tests:
             print(f"Runnning: {test}")
-            test.extra_params["show_visual"] = False
-            result = controller.solve(test.file_path, test.extra_params)
+            test.extra_params[ExtraParams.ShowVisual] = False
+            result = controller.solve(test)
             assert result == test.expected_result

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import abstractmethod
-from typing import Any, Callable, Optional
+from typing import Callable, Optional
 from attr import dataclass
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
@@ -81,7 +81,7 @@ class Shell:
 class Day07Solver(Solver[AnswerType]):
     commands: list[str]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         input = load_text_file(file_path) or ""
         self.commands = input.split("$ ")
 

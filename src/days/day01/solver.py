@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from typing import Any
 from src.shared.controller import Solver
 from src.shared.file_loading import load_text_file
 
@@ -10,7 +9,7 @@ AnswerType = int
 class Day01Solver(Solver[AnswerType]):
     elf_calories: list[int]
 
-    def initialize(self, file_path: str, extra_params: dict[str, Any]):
+    def initialize(self, file_path: str):
         self.elf_calories = self.__load_data_structures(file_path)
 
     def __load_data_structures(self, file_path: str) -> list[int]:
