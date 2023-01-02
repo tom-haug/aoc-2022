@@ -7,8 +7,6 @@ from src.shared.file_loading import load_text_file_lines
 
 
 AnswerType = int
-
-
 Point = namedtuple("Point", ["x", "y"])
 
 
