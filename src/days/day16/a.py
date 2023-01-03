@@ -3,6 +3,7 @@ from src.days.day16.solver import (
     AnswerType,
     Day16Solver,
     Player,
+    StartingLocation,
 )
 from src.shared.file_result import FileResult
 
@@ -10,7 +11,7 @@ from src.shared.file_result import FileResult
 class Day16PartASolver(Day16Solver):
     @property
     def _players(self) -> list[Player]:
-        return [Player("AA", 30)]
+        return [Player(StartingLocation.AA, 30)]
 
 
 class Day16PartAController(Controller[AnswerType]):
